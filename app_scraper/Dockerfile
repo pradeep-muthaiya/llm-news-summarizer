@@ -17,4 +17,5 @@ RUN pip install -r requirements.txt
 COPY --from=build /opt/chrome-linux64 /opt/chrome
 COPY --from=build /opt/chromedriver-linux64 /opt/
 COPY src/main.py ./
+# run using: docker run -p 9000:8080 ecr-test-repo for local tr
 CMD [ "main.handler" ]

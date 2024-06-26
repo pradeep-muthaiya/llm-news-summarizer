@@ -24,13 +24,10 @@ def handler(event=None, context=None):
 
     chrome = webdriver.Chrome(options=options, service=service)
     #url = "https://news.google.com/rss/articles/CBMiYmh0dHBzOi8vd3d3LnBvbGl0aWZhY3QuY29tL2FydGljbGUvMjAyNC9qdW4vMjUvY29tcGFyaW5nLWVjb25vbWljLXBlcmZvcm1hbmNlLWZvci1ibGFjay1hbWVyaWNhbnMv0gEA?oc=5"
-    if event:
+    if 'url' in event:
         url = event['url']
-    else:
-        url = "www.example.com"
-    chrome.get(url)
+        chrome.get(url)
 
-    if event:
         html = chrome.page_source
         soup = bs4.BeautifulSoup(html)
 
@@ -39,4 +36,6 @@ def handler(event=None, context=None):
             text_data.append(tag.text)
         return text_data
     else:
+        url = "https://www.example.com"
+        chrome.get(url)
         return chrome.find_element(by=By.XPATH, value="//html").text
