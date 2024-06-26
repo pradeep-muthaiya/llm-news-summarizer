@@ -2,7 +2,7 @@ from selenium import webdriver
 from tempfile import mkdtemp
 from selenium.webdriver.common.by import By
 import bs4
-
+import time
 
 def handler(event=None, context=None):
     options = webdriver.ChromeOptions()
@@ -28,14 +28,25 @@ def handler(event=None, context=None):
         url = event['url']
         chrome.get(url)
 
+        #let function slow down to allow for reloading of webpage if needed
+        sleep = 3
+        if 'sleep' in event:
+            sleep = event['sleep']
+        time.sleep(sleep)
+
+        #get page source
         html = chrome.page_source
         soup = bs4.BeautifulSoup(html)
 
+        #extract all paragraph elements
         text_data = []
         for tag in soup.find_all('p'):
             text_data.append(tag.text)
+        chrome.close()
         return text_data
     else:
         url = "https://www.example.com"
         chrome.get(url)
-        return chrome.find_element(by=By.XPATH, value="//html").text
+        element = chrome.find_element(by=By.XPATH, value="//html").text
+        chrome.close()
+        return element
