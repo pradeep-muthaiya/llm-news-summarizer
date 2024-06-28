@@ -9,6 +9,12 @@ __pycache__/
 # Secrets
 secrets.json
 
+#Terraform
+.terraform
+.terraform/
+.terraform.lock.hcl
+*.tfstate*
+
 #Jsons
 *.json
 
